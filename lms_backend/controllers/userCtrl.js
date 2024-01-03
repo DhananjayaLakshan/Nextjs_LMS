@@ -36,7 +36,7 @@ const loginUser = asyncHandler(async (req, res) => {
             message:"Login Successfully!!",
             token:generateToken(findUser?._id),
             role:findUser?.roles,
-            userName: findUser?.firstName + findUser?.lastName,
+            userName: findUser?.firstName + " " + findUser?.lastName,
             user_image: findUser?.user_image
         })
     }else{
@@ -45,6 +45,21 @@ const loginUser = asyncHandler(async (req, res) => {
 
 })
 
+/**Get all users */
+
+const getAllUser = asyncHandler( async(req,res) => {
+    try {
+        const allUser = await User.find()
+        res.status(200).json({
+            status:true,
+            message:"All Users Fetch Successfully..!!",
+            allUser
+        })
+    } catch (error) {
+        throw new Error (error)
+    }
+})
 
 
-module.exports = { registerUser, loginUser }
+
+module.exports = { registerUser, loginUser, getAllUser }
