@@ -60,6 +60,23 @@ const getAllUser = asyncHandler(async (req, res) => {
         throw new Error(error)
     }
 })
+/**Get a User */
+
+const getUser = asyncHandler(async (req, res) => {
+    const { id } = req.params
+    try {
+        const getProfile = await User.findById(id)
+        res.status(200).json({
+            status: true,
+            message: "User Found",
+            getProfile
+        })
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
+
 
 /**Update a user */
 
@@ -96,4 +113,4 @@ const deleteUser = asyncHandler(async (req, res) => {
     }
 })
 
-module.exports = { registerUser, loginUser, getAllUser, updateUser, deleteUser }
+module.exports = { registerUser, loginUser, getAllUser, updateUser, deleteUser, getUser }

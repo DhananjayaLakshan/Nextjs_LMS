@@ -1,5 +1,5 @@
 const express = require('express')
-const { registerUser, loginUser, getAllUser, updateUser, deleteUser } = require('../controllers/userCtrl')
+const { registerUser, loginUser, getAllUser, updateUser, deleteUser, getUser } = require('../controllers/userCtrl')
 const { isAdmin, authMiddleware } = require('../middleware/authMiddleware')
 const userRouter = express.Router()
 
@@ -9,6 +9,7 @@ userRouter.post('/login', loginUser)
 
 /**all GET routes */
 userRouter.get('/allUsers', isAdmin,  getAllUser)
+userRouter.get('/getUser/:id', authMiddleware, getUser)
 
 /**all PUT routes */
 userRouter.put('/updateUser', authMiddleware, updateUser)
