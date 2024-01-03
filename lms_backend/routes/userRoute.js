@@ -1,17 +1,20 @@
 const express = require('express')
-const { registerUser, loginUser, getAllUser, updateUser } = require('../controllers/userCtrl')
+const { registerUser, loginUser, getAllUser, updateUser, deleteUser } = require('../controllers/userCtrl')
 const { isAdmin, authMiddleware } = require('../middleware/authMiddleware')
 const userRouter = express.Router()
 
-/**all post routes */
+/**all POST routes */
 userRouter.post('/register', registerUser)
 userRouter.post('/login', loginUser)
 
-/**all get routes */
+/**all GET routes */
 userRouter.get('/allUsers', isAdmin,  getAllUser)
 
-/**PUT update user profile */
+/**all PUT routes */
 userRouter.put('/updateUser', authMiddleware, updateUser)
+
+/**all DELETE routes */
+userRouter.delete('/deleteUser/:id', authMiddleware, isAdmin, deleteUser)
 
 
 module.exports = userRouter

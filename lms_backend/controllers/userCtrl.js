@@ -69,7 +69,7 @@ const updateUser = asyncHandler(async (req, res) => {
     validateMongodbID(_id)
 
     try {
-        const user = await User.findByIdAndUpdate(_id, req.body, {new: true})
+        const user = await User.findByIdAndUpdate(_id, req.body, { new: true })
         res.status(200).json({
             status: true,
             message: "Profile Updated Successfully..!!",
@@ -80,6 +80,20 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 })
 
+/**Delete a user */
 
+const deleteUser = asyncHandler(async (req, res) => {
+    const { id } = req.params
 
-module.exports = { registerUser, loginUser, getAllUser, updateUser }
+    try {
+        await User.findByIdAndDelete(id)
+        res.status(200).json({
+            status: true,
+            message: "Profile Deleted Successfully..!!"
+        })
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
+module.exports = { registerUser, loginUser, getAllUser, updateUser, deleteUser }
