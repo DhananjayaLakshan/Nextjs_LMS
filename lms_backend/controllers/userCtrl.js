@@ -113,4 +113,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     }
 })
 
+/**Block a User */
+
+
 module.exports = { registerUser, loginUser, getAllUser, updateUser, deleteUser, getUser }
