@@ -1,4 +1,5 @@
 const generateToken = require('../config/jwtToken')
+const validateMongodbID = require('../config/validateMongodbID')
 const User = require('../models/userModel')
 const asyncHandler = require('express-async-handler')
 
@@ -33,33 +34,52 @@ const loginUser = asyncHandler(async (req, res) => {
     if (findUser && (await findUser.isPasswordMatched(password))) {
         res.status(200).json({
             status: true,
-            message:"Login Successfully!!",
-            token:generateToken(findUser?._id),
-            role:findUser?.roles,
+            message: "Login Successfully!!",
+            token: generateToken(findUser?._id),
+            role: findUser?.roles,
             userName: findUser?.firstName + " " + findUser?.lastName,
             user_image: findUser?.user_image
         })
-    }else{
-        throw new Error ("Invalid Credentials")
+    } else {
+        throw new Error("Invalid Credentials")
     }
 
 })
 
 /**Get all users */
 
-const getAllUser = asyncHandler( async(req,res) => {
+const getAllUser = asyncHandler(async (req, res) => {
     try {
         const allUser = await User.find()
         res.status(200).json({
-            status:true,
-            message:"All Users Fetch Successfully..!!",
+            status: true,
+            message: "All Users Fetch Successfully..!!",
             allUser
         })
     } catch (error) {
-        throw new Error (error)
+        throw new Error(error)
+    }
+})
+
+/**Update a user */
+
+const updateUser = asyncHandler(async (req, res) => {
+
+    const { _id } = req.user
+    validateMongodbID(_id)
+
+    try {
+        const user = await User.findByIdAndUpdate(_id, req.body, {new: true})
+        res.status(200).json({
+            status: true,
+            message: "Profile Updated Successfully..!!",
+            user
+        })
+    } catch (error) {
+        throw new Error(error)
     }
 })
 
 
 
-module.exports = { registerUser, loginUser, getAllUser }
+module.exports = { registerUser, loginUser, getAllUser, updateUser }
