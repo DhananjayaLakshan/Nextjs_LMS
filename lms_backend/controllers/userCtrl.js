@@ -4,6 +4,7 @@ const User = require('../models/userModel')
 const asyncHandler = require('express-async-handler')
 
 /**Create a User */
+
 const registerUser = asyncHandler(async (req, res) => {
     /**Get the email from rq.body and find whether a user exists or not */
     const email = req.body.email
@@ -22,6 +23,8 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
 })
+
+/******** */
 
 /**login a user */
 
@@ -43,8 +46,11 @@ const loginUser = asyncHandler(async (req, res) => {
     } else {
         throw new Error("Invalid Credentials")
     }
-
+    
 })
+
+/******** */
+
 
 /**Get all users */
 
@@ -60,10 +66,18 @@ const getAllUser = asyncHandler(async (req, res) => {
         throw new Error(error)
     }
 })
+
+
+/******** */
+
+
+
 /**Get a User */
 
 const getUser = asyncHandler(async (req, res) => {
     const { id } = req.params
+    validateMongodbID(id)
+    
     try {
         const getProfile = await User.findById(id)
         res.status(200).json({
@@ -75,6 +89,8 @@ const getUser = asyncHandler(async (req, res) => {
         throw new Error(error)
     }
 })
+
+/******** */
 
 
 
@@ -97,10 +113,15 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 })
 
+/******** */
+
+
+
 /**Delete a user */
 
 const deleteUser = asyncHandler(async (req, res) => {
     const { id } = req.params
+    validateMongodbID(id)
 
     try {
         await User.findByIdAndDelete(id)
@@ -113,7 +134,16 @@ const deleteUser = asyncHandler(async (req, res) => {
     }
 })
 
+/******** */
+
+
+
 /**Block a User */
 
+const blockUser = asyncHandler( async (req,res) => {
+
+})
+
+/******** */
 
 module.exports = { registerUser, loginUser, getAllUser, updateUser, deleteUser, getUser }
