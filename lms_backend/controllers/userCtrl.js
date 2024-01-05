@@ -2,6 +2,7 @@ const generateToken = require('../config/jwtToken')
 const validateMongodbID = require('../config/validateMongodbID')
 const User = require('../models/userModel')
 const asyncHandler = require('express-async-handler')
+const crypto = require('crypto')
 
 /**Create a User */
 
@@ -221,7 +222,48 @@ const updatePassword = asyncHandler(async (req, res) => {
 
 /** Forgot Password token */
 
+const forgotPasswordToken = asyncHandler(async (req, res) => {
+    const { email } = req.body
+    const user = await User.findOne({ email: email })
+    if (!user) {
+        throw new Error ("User Not Exists with this email")
+    }
+
+    try {
+        const token = await user.createPasswordResetToken()
+        await user.save()
+        const resetLink = `http://localhost:4000/api/user/resetPassword/${token}`
+        res.status(200).json(resetLink)
+
+    } catch (error) {
+        throw new Error (error)
+    }
+})
+
+const resetPassword = asyncHandler(async (req, res) => {
+    const {password} = req.body
+    const {token} = req.params
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex")
+    const user = await User.findOne({
+        passwordResetToken: hashedToken,
+        passwordResetExpires: {$gt: Date.now()},
+    })
+
+    if (!user) {
+        throw new Error ("Token Expired, Please try again.")
+    }
+
+    user.password = password
+    user.passwordResetToken = undefined
+    user.passwordResetExpires = undefined
+    await user.save()
+    res.status(200).json({
+        status: true,
+        message: "Password Reset Successfully.!!"
+    })
+})
+
 
 
 /****** */
-module.exports = { registerUser, loginUser, getAllUser, updateUser, deleteUser, getUser, blockUser, unblockUser, updatePassword }
+module.exports = { registerUser, loginUser, getAllUser, updateUser, deleteUser, getUser, blockUser, unblockUser, updatePassword, forgotPasswordToken, resetPassword }
