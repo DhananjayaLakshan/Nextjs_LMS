@@ -77,7 +77,7 @@ const getAllUser = asyncHandler(async (req, res) => {
 const getUser = asyncHandler(async (req, res) => {
     const { id } = req.params
     validateMongodbID(id)
-    
+
     try {
         const getProfile = await User.findById(id)
         res.status(200).json({
@@ -142,8 +142,51 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 const blockUser = asyncHandler( async (req,res) => {
 
+    const {id} = req.params
+    validateMongodbID(id)
+    
+    try {
+        const block = await User.findByIdAndUpdate(
+            id,
+            {isBlocked: true},
+            {new: true}
+        )
+        res.status(200).json({
+            status:true,
+            message:"User Blocked Successfully.!!"
+        })
+    } catch (error) {
+        throw new Error (error)
+    }
+
 })
 
 /******** */
 
-module.exports = { registerUser, loginUser, getAllUser, updateUser, deleteUser, getUser }
+
+/**Block a User */
+
+const unblockUser = asyncHandler( async (req,res) => {
+
+    const {id} = req.params
+    validateMongodbID(id)
+    
+    try {
+        const unblock = await User.findByIdAndUpdate(
+            id,
+            {isBlocked: false},
+            {new: true}
+        )
+        res.status(200).json({
+            status:true,
+            message:"User Unblocked Successfully.!!"
+        })
+    } catch (error) {
+        throw new Error (error)
+    }
+
+})
+
+/******** */
+
+module.exports = { registerUser, loginUser, getAllUser, updateUser, deleteUser, getUser, blockUser, unblockUser }
