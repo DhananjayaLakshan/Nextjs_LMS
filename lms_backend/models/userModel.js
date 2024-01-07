@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
     lastName: { type: String, required: true },
     user_image: { type: String, default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngegg.com%2Fen%2Fsearch%3Fq%3Duser&psig=AOvVaw3VGNVVj5frllgDVfV04u34&ust=1704339121652000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCKjzoJKkwIMDFQAAAAAdAAAAABAD" },
     email: { type: String, required: true, unique: true, index: true },
-    mobile: { type: String, required: true, unique: true, index: true },
+    mobile: { type: String, index: true },
     password: { type: String, required: true },
     roles: { type: String, default: "user" },
     profession: { type: String, required: true },

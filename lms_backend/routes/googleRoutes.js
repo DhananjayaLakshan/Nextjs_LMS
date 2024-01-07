@@ -6,11 +6,22 @@ const asyncHandler = require('express-async-handler')
 const { json } = require("body-parser")
 
 googleRouter.get("/login/success", asyncHandler(async (req, res) => {
-    console.log("success");
-    res.status(200).json({
-        status: true,
-        message: "Login success"
-    })
+    if (req.user) {
+        const findUser = await User.findOne({email: req.user.email})
+        if (findUser) {
+            res.status(200).json({
+                status: true,
+            message: "Login Successfully!!",
+            token: generateToken(findUser?._id),
+            role: findUser?.roles,
+            userName: findUser?.firstName + " " + findUser?.lastName,
+            user_image: findUser?.user_image,
+            from:"google"
+            })
+        }
+    }else{
+        throw new Error ("Something Went Wrong!!")
+    }
 
 }))
 

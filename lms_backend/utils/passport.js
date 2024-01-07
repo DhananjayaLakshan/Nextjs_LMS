@@ -9,8 +9,22 @@ passport.use(new GoogleStrategy(
         callbackURL:"/auth/google/callback",
         scope:["profile","email"],
     },
-    function(accessToken , refreshToken, profile, cb){
-        return cb(null,profile)
+    async function(accessToken , refreshToken, profile, cb){
+        let data = profile?._json
+        const user = await User.findOne({email: data.email})
+
+        if (user) {
+            return await cb(null,user)
+        }else{
+            const newUser = await User.create({
+                firstName: data.name,
+                lastName: data.given_name,
+                user_image: data.picture,
+                email: data.email,
+                role:"user"
+            })
+        }
+        return await cb(null,newUser)
     }
 ))
 
