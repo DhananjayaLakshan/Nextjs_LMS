@@ -3,6 +3,7 @@ const dbConnect = require('./config/dbconnect');
 const { notFound, handleError } = require('./middleware/errorHandler');
 const userRouter = require('./routes/userRoute');
 const MongoStore = require('connect-mongo');
+const tutCatRouter = require('./routes/tutCatRoutes');
 const dotenv = require('dotenv').config();
 const app = express();
 // const { session } = require('passport');
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 // })
 
 app.use("/api/user", userRouter);
+app.use("/api/tutorial/category", tutCatRouter)
 // app.use("/", googleRouter)
 
 app.use(notFound);
