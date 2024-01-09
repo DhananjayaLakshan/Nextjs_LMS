@@ -6,6 +6,7 @@ const userRouter = require('./routes/userRoute');
 const tutCatRouter = require('./routes/tutCatRoutes');
 const tutorialRouter = require('./routes/tutorialRoutes');
 const newsLetterRouter = require('./routes/newLetterRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
 const dotenv = require('dotenv').config();
 const app = express();
 // const { session } = require('passport');
@@ -41,6 +42,7 @@ app.use("/api/user", userRouter);
 app.use("/api/tutorial/category", tutCatRouter)
 app.use("/api/tutorial", tutorialRouter)
 app.use("/api/newsLetter", newsLetterRouter)
+app.use("/api/review", reviewRouter)
 // app.use("/", googleRouter)
 
 app.use(notFound);
