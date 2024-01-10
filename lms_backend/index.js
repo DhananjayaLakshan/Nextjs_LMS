@@ -9,6 +9,7 @@ const newsLetterRouter = require('./routes/newLetterRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const contactRouter = require('./routes/contactRoutes');
 const videoRouter = require('./routes/videoRoutes');
+const docRouter = require('./routes/docRoutes');
 const dotenv = require('dotenv').config();
 const app = express();
 // const { session } = require('passport');
@@ -47,6 +48,7 @@ app.use("/api/newsLetter", newsLetterRouter)
 app.use("/api/review", reviewRouter)
 app.use("/api/contact", contactRouter)
 app.use("/api/video", videoRouter)
+app.use("/api/doc", docRouter)
 
 // app.use("/", googleRouter)
 
