@@ -11,6 +11,7 @@ const contactRouter = require('./routes/contactRoutes');
 const videoRouter = require('./routes/videoRoutes');
 const docRouter = require('./routes/docRoutes');
 const docCatRouter = require('./routes/docCatRoutes');
+const blogCatRouter = require('./routes/blogCatRouter');
 const dotenv = require('dotenv').config();
 const app = express();
 // const { session } = require('passport');
@@ -51,6 +52,7 @@ app.use("/api/contact", contactRouter)
 app.use("/api/video", videoRouter)
 app.use("/api/doc", docRouter)
 app.use("/api/doc/category", docCatRouter)
+app.use("/api/blog/category", blogCatRouter)
 
 // app.use("/", googleRouter)
 
