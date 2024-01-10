@@ -4,6 +4,7 @@ const docsSchema = mongoose.Schema({
 
     title: { type: String, require: true},
     slug: { type: String, require: true},
+    category: { type: String, require: true},
     type: { type: String, require: true},
     author: { type: String, default:"Dhananjaya"},
     content: { type: String, require: true},
